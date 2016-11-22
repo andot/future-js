@@ -1,0 +1,38 @@
+{
+  "name": "future-js",
+  "filename": "future.js",
+  "version": "2.0.26",
+  "description": "This is a Promises/A+ implementation with coroutine support.",
+  "homepage": "https://github.com/andot/future.js",
+  "license": "MIT",
+  "keywords": [
+    "async",
+    "await",
+    "future",
+    "promise",
+    "co",
+    "yield",
+    "coroutine",
+    "promises-aplus"
+  ],
+  "maintainers": [
+    {
+      "name": "Ma Bingyao",
+      "email": "andot@hprose.com",
+      "web": "http://hprose.com/"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/andot/future.js.git"
+  },
+  "autoupdate": {
+    "source": "git",
+    "target": "git://github.com/andot/future.js.git",
+    "basePath": "dist/",
+    "files": [ "future.js" ]
+  },
+  "devDependencies": {
+    "gulp-jsmin": "^0.1.5"
+  }
+}

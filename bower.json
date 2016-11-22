@@ -1,0 +1,26 @@
+{
+  "author": "Ma Bingyao <andot@hprose.com>",
+  "name": "future-js",
+  "version": "1.0.0",
+  "description": "This is a Promises/A+ implementation with coroutine support.",
+  "keywords": [
+    "async",
+    "await",
+    "future",
+    "promise",
+    "co",
+    "yield",
+    "coroutine",
+    "promises-aplus"
+  ],
+  "homepage": "http://hprose.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/andot/future.js.git"
+  },
+  "main": ["dist/future.js"],
+  "ignore": [
+    "example", "test", "src", "*.md"
+  ],
+  "license": "MIT"
+}
