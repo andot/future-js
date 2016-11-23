@@ -16,7 +16,7 @@
   "homepage": "http://hprose.com",
   "repository": {
     "type": "git",
-    "url": "https://github.com/andot/future.js.git"
+    "url": "https://github.com/andot/future-js.git"
   },
   "main": ["dist/future.js"],
   "ignore": [

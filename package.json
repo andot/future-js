@@ -1,9 +1,9 @@
 {
   "name": "future-js",
   "filename": "future.js",
-  "version": "2.0.26",
+  "version": "1.0.0",
   "description": "This is a Promises/A+ implementation with coroutine support.",
-  "homepage": "https://github.com/andot/future.js",
+  "homepage": "https://github.com/andot/future-js",
   "license": "MIT",
   "keywords": [
     "async",
@@ -24,11 +24,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/andot/future.js.git"
+    "url": "https://github.com/andot/future-js.git"
   },
   "autoupdate": {
     "source": "git",
-    "target": "git://github.com/andot/future.js.git",
+    "target": "git://github.com/andot/future-js.git",
     "basePath": "dist/",
     "files": [ "future.js" ]
   },
