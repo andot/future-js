@@ -14,6 +14,10 @@ gulp.task('default', ['clear'], function() {
         .pipe(concat('regenerator-runtime.js'))
         .pipe(uglify())
         .pipe(gulp.dest('dist'));
+    gulp.src(['src/wx.js'])
+        .pipe(concat('wx.js'))
+        .pipe(uglify())
+        .pipe(gulp.dest('dist'));
     return gulp.src(['src/TimeoutError.js',
                      'src/Future.js'])
         .pipe(concat('future.js'))
