@@ -2,7 +2,7 @@
  *                                                        *
  * Future.js                                              *
  *                                                        *
- * LastModified: Nov 23, 2016                             *
+ * LastModified: Nov 24, 2016                             *
  * Author: Ma Bingyao <andot@qq.com>                      *
  *                                                        *
 \**********************************************************/
@@ -43,15 +43,16 @@ if (!Function.prototype.bind) {
         typeof global.setImmediate === "function" ? global.setImmediate :
         isNode ? global.process.nextTick : function(fn) { setTimeout(fn, 0); }
     );
+
     var foreach = Array.prototype.forEach;
     var slice = Array.prototype.slice;
 
     function Future(computation) {
         var self = this;
-        Object.defineProperties(self, {
+        Object.defineProperties(this, {
             _subscribers: { value: [] },
-            resolve: { value: this.resolve.bind(self) },
-            reject: { value: this.reject.bind(self) }
+            resolve: { value: this.resolve.bind(this) },
+            reject: { value: this.reject.bind(this) }
         });
         if (typeof computation === 'function') {
             setImmediate(function() {
@@ -67,6 +68,10 @@ if (!Function.prototype.bind) {
 
     function isFuture(obj) {
         return obj instanceof Future;
+    }
+
+    function toFuture(obj) {
+        return isFuture(obj) ? obj : value(obj);
     }
 
     function isPromise(obj) {
@@ -124,15 +129,14 @@ if (!Function.prototype.bind) {
     }
 
     function all(array) {
-        array = isPromise(array) ? array : value(array);
-        return array.then(function(array) {
+        return toFuture(array).then(function(array) {
             var n = array.length;
             var count = arraysize(array);
             var result = new Array(n);
-            if (count === 0) { return value(result); }
+            if (count === 0) { return result; }
             var future = new Future();
             foreach.call(array, function(element, index) {
-                toPromise(element).then(function(value) {
+                toFuture(element).then(function(value) {
                     result[index] = value;
                     if (--count === 0) {
                         future.resolve(result);
@@ -149,19 +153,17 @@ if (!Function.prototype.bind) {
     }
 
     function race(array) {
-        array = isPromise(array) ? array : value(array);
-        return array.then(function(array) {
+        return toFuture(array).then(function(array) {
             var future = new Future();
             foreach.call(array, function(element) {
-                toPromise(element).fill(future);
+                toFuture(element).fill(future);
             });
             return future;
         });
     }
 
     function any(array) {
-        array = isPromise(array) ? array : value(array);
-        return array.then(function(array) {
+        return toFuture(array).then(function(array) {
             var n = array.length;
             var count = arraysize(array);
             if (count === 0) {
@@ -170,7 +172,7 @@ if (!Function.prototype.bind) {
             var reasons = new Array(n);
             var future = new Future();
             foreach.call(array, function(element, index) {
-                toPromise(element).then(future.resolve, function(e) {
+                toFuture(element).then(future.resolve, function(e) {
                     reasons[index] = e;
                     if (--count === 0) {
                         future.reject(reasons);
@@ -182,16 +184,15 @@ if (!Function.prototype.bind) {
     }
 
     function settle(array) {
-        array = isPromise(array) ? array : value(array);
-        return array.then(function(array) {
+        return toFuture(array).then(function(array) {
             var n = array.length;
             var count = arraysize(array);
             var result = new Array(n);
-            if (count === 0) { return value(result); }
+            if (count === 0) { return result; }
             var future = new Future();
             foreach.call(array, function(element, index) {
-                var f = toPromise(element);
-                f.whenComplete(function() {
+                var f = toFuture(element);
+                f.complete(function() {
                     result[index] = f.inspect();
                     if (--count === 0) {
                         future.resolve(result);
@@ -311,16 +312,10 @@ if (!Function.prototype.bind) {
     }
 
     function toPromise(obj) {
-        if (!obj) {
-            return value(obj);
-        }
-        if (isPromise(obj)) {
-            return obj;
-        }
         if (isGeneratorFunction(obj) || isGenerator(obj)) {
             return co(obj);
         }
-        return value(obj);
+        return toFuture(obj);
     }
 
     function co(gen) {
@@ -423,10 +418,7 @@ if (!Function.prototype.bind) {
     function reduce(array, callback, initialValue) {
         if (arguments.length > 2) {
             return all(array).then(function(array) {
-                if (!isPromise(initialValue)) {
-                    initialValue = value(initialValue);
-                }
-                return initialValue.then(function(value) {
+                return toFuture(initialValue).then(function(value) {
                     return array.reduce(callback, value);
                 });
             });
@@ -439,10 +431,7 @@ if (!Function.prototype.bind) {
     function reduceRight(array, callback, initialValue) {
         if (arguments.length > 2) {
             return all(array).then(function(array) {
-                if (!isPromise(initialValue)) {
-                    initialValue = value(initialValue);
-                }
-                return initialValue.then(function(value) {
+                return toFuture(initialValue).then(function(value) {
                     return array.reduceRight(callback, value);
                 });
             });
@@ -454,10 +443,7 @@ if (!Function.prototype.bind) {
 
     function indexOf(array, searchElement, fromIndex) {
         return all(array).then(function(array) {
-            if (!isPromise(searchElement)) {
-                searchElement = value(searchElement);
-            }
-            return searchElement.then(function(searchElement) {
+            return toFuture(searchElement).then(function(searchElement) {
                 return array.indexOf(searchElement, fromIndex);
             });
         });
@@ -465,10 +451,7 @@ if (!Function.prototype.bind) {
 
     function lastIndexOf(array, searchElement, fromIndex) {
         return all(array).then(function(array) {
-            if (!isPromise(searchElement)) {
-                searchElement = value(searchElement);
-            }
-            return searchElement.then(function(searchElement) {
+            return toFuture(searchElement).then(function(searchElement) {
                 if (fromIndex === undefined) {
                     fromIndex = array.length - 1;
                 }
@@ -479,10 +462,7 @@ if (!Function.prototype.bind) {
 
     function includes(array, searchElement, fromIndex) {
         return all(array).then(function(array) {
-            if (!isPromise(searchElement)) {
-                searchElement = value(searchElement);
-            }
-            return searchElement.then(function(searchElement) {
+            return toFuture(searchElement).then(function(searchElement) {
                 return array.includes(searchElement, fromIndex);
             });
         });
@@ -516,6 +496,7 @@ if (!Function.prototype.bind) {
         // extended methods
         promise: { value: promise },
         isFuture: { value: isFuture },
+        toFuture: { value: toFuture },
         isPromise: { value: isPromise },
         toPromise: { value: toPromise },
         join: { value: join },
