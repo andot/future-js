@@ -40,8 +40,9 @@ if (!Function.prototype.bind) {
         !global.process.browser;
 
     var setImmediate = (
+        isNode ? global.process.nextTick :
         typeof global.setImmediate === "function" ? global.setImmediate :
-        isNode ? global.process.nextTick : function(fn) { setTimeout(fn, 0); }
+        function(fn) { setTimeout(fn, 0); }
     );
 
     var foreach = Array.prototype.forEach;
