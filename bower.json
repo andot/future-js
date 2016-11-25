@@ -1,7 +1,7 @@
 {
   "author": "Ma Bingyao <andot@hprose.com>",
   "name": "future-js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "This is a Promises/A+ implementation with coroutine support.",
   "keywords": [
     "async",

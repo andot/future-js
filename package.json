@@ -1,7 +1,7 @@
 {
   "name": "future-js",
   "filename": "future.js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "This is a Promises/A+ implementation with coroutine support.",
   "homepage": "https://github.com/andot/future-js",
   "license": "MIT",
