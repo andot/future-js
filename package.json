@@ -1,10 +1,8 @@
 {
   "name": "future-js",
-  "filename": "future.js",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "This is a Promises/A+ implementation with coroutine support.",
   "homepage": "https://github.com/andot/future-js",
-  "license": "MIT",
   "keywords": [
     "async",
     "await",
@@ -15,24 +13,31 @@
     "coroutine",
     "promises-aplus"
   ],
-  "maintainers": [
-    {
-      "name": "Ma Bingyao",
-      "email": "andot@hprose.com",
-      "web": "http://hprose.com/"
-    }
-  ],
+  "author": {
+    "name": "Ma Bingyao",
+    "email": "andot@hprose.com",
+    "web": "http://hprose.com/"
+  },
+  "directories": {
+    "lib": "lib/"
+  },
+  "main": "dist/future.js",
+  "devDependencies": {
+      "promises-aplus-tests": "*"
+  },
+  "scripts": {
+    "aplus-tests": "promises-aplus-tests dist/future.js"
+  },
+  "engines": {
+    "node": "*"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/andot/future-js.git"
   },
-  "autoupdate": {
-    "source": "git",
-    "target": "git://github.com/andot/future-js.git",
-    "basePath": "dist/",
-    "files": [ "future.js" ]
+  "bugs": {
+    "url": "https://github.com/andot/future-js/issues",
+    "email": "andot@hprose.com"
   },
-  "devDependencies": {
-    "gulp-jsmin": "^0.1.5"
-  }
+  "license" : "MIT"
 }
