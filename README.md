@@ -2,6 +2,7 @@
     <img src="https://promisesaplus.com/assets/logo-small.png" alt="Promises/A+ logo"
          title="Promises/A+ 1.1 compliant" align="right" />
 </a>
+
 # Future for JavaScript
 
 [![bower version](https://img.shields.io/bower/v/future-js.svg)](http://bower.io/search/?q=future-js)
@@ -12,3 +13,4 @@
 ## Introduction
 
 *Future* is a Promises/A+ implementation with coroutine support.
+
